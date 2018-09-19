@@ -15,7 +15,7 @@ class CreateCompetitionsTable extends Migration
     {
         Schema::create('competitions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable(false);
+            $table->string('name')->nullable(false)->unique(true);
             $table->string('abbrev')->nullable(true);
             $table->string('table_link')->nullable(true);
             $table->string('scores_link')->nullable(true);

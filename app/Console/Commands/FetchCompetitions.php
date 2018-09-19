@@ -45,8 +45,7 @@ class FetchCompetitions extends Command
     {
         switch ($service) {
             case 'espn':
-                $espn = new EspnScraper();
-                $espn->fetchCompetitions();
+                $this->fetchFromEspn();
                 break;
             
             default:
@@ -54,5 +53,17 @@ class FetchCompetitions extends Command
                 break;
         }
     }
-
+    
+    private function fetchFromEspn()
+    {
+        $espn = new EspnScraper();
+        
+        print "\nFetching competitions...";
+        $espn->fetchCompetitions();
+        print "\nDone!";
+        
+        print "\n\nSaving competitions...";
+        $espn->saveCompetitions();
+        print "\nDone!";
+    }
 }
