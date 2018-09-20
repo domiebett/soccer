@@ -11,31 +11,22 @@ use App\Models\Competition;
 class EspnScraper extends BaseScraper {
 
 //    const ESPN_COMPETITION_URL = "http://www.espn.com/football/story/_/id/21087321/soccer-leagues-competitions";
-    const ESPN_COMPETITION_URL = "file:///Users/dominicbett/Documents/Downloaded%20Webpages/Soccer%20Leagues%20and%20Competitions.html";
+    const ESPN_COMPETITIONS_URL = "file:///Users/dominicbett/Documents/Downloaded%20Webpages/Soccer%20Leagues%20and%20Competitions.html";
     
-    const COMPETITION_OPENING_TAGS = '<aside class="inline-table">';
-    const COMPETITION_CLOSING_TAGS = '</aside>';
+    const TABLE_CONTAINER_OPENING_TAGS = '<aside class="inline-table">';
+    const TABLE_CONTAINER_CLOSING_TAGS = '</aside>';
     
-    const COMPETITION_ROW_OPENING_TAGS = '<tr class="last">';
-    const COMPETITION_ROW_CLOSING_TAGS = '</tr>';
+    const TABLE_ROW_OPENING_TAGS = '<tr class="last">';
+    const TABLE_ROW_CLOSING_TAGS = '</tr>';
     
     private $competitions;
     
     public function __construct()
     {
-        $this->webPage = null;
+        parent::__construct();
         $this->competitions = [];
-        $this->fetchPage();
-    }
-    
-    /**
-     * Fetches the web page
-     */
-    public function fetchPage()
-    {
-        $this->webPage = http_get(
-                $target = self::ESPN_COMPETITION_URL,
-                $ref = "");
+        $this->service = 'espn';
+        $this->webPage = $this->fetchPage(self::ESPN_COMPETITIONS_URL);
     }
 
     /**
@@ -91,14 +82,14 @@ class EspnScraper extends BaseScraper {
     private function retrieveCompetitionTableRows() {
         $tables = return_between(
                 $this->webPage['FILE'],
-                self::COMPETITION_OPENING_TAGS,
-                self::COMPETITION_CLOSING_TAGS,
+                self::TABLE_CONTAINER_OPENING_TAGS,
+                self::TABLE_CONTAINER_CLOSING_TAGS,
                 EXCL);
         
         return parse_array(
                 $tables,
-                self::COMPETITION_ROW_OPENING_TAGS,
-                self::COMPETITION_ROW_CLOSING_TAGS);
+                self::TABLE_ROW_OPENING_TAGS,
+                self::TABLE_ROW_CLOSING_TAGS);
     }
     
     /**
@@ -114,8 +105,8 @@ class EspnScraper extends BaseScraper {
         foreach($tableRows as $tableRow) {
             $rowContents = return_between(
                     $tableRow,
-                    self::COMPETITION_ROW_OPENING_TAGS,
-                    self::COMPETITION_ROW_CLOSING_TAGS,
+                    self::TABLE_ROW_OPENING_TAGS,
+                    self::TABLE_ROW_CLOSING_TAGS,
                     EXCL);
             
             $columns = $this->htmlSplit($rowContents, 'td');
@@ -146,6 +137,7 @@ class EspnScraper extends BaseScraper {
             $competitionInfo = [
                 'logo' => $imageSource,
                 'name' => $competitionName,
+                'service' => $this->service
             ];
             
             $competition = array_merge(
@@ -211,11 +203,17 @@ class EspnScraper extends BaseScraper {
         $fixturesColumn = $rowContent[3];
         $fixturesLink = get_attribute($fixturesColumn, "href");
         
+        $competitionLinkElement = return_between(
+                $rowContent[0], "<a", "</a>", INCL);
+        $competitionLink = get_attribute(
+                $competitionLinkElement, 'href');
+        
         return [
             'table_link' => $tableLink,
             'fixtures_link' => $fixturesLink,
             'scores_link' => $scoresLink,
-            'results_link' => $fixturesLink
+            'results_link' => $fixturesLink,
+            'competition_link' => $competitionLink
         ];
     }
 }

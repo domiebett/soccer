@@ -3,23 +3,22 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Scrapers\Competitions\EspnScraper;
 
-class FetchCompetitions extends Command
+class FetchTeams extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'fetch:competitions {service}';
+    protected $signature = 'fetch:teams {service}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch competitions from the ESPN website';
+    protected $description = 'Fetch teams from competitions in the specified service';
 
     /**
      * Create a new command instance.
@@ -38,11 +37,15 @@ class FetchCompetitions extends Command
      */
     public function handle()
     {
-        $this->fetchCompetitions($this->argument('service'));
+        $this->fetchTeams($this->argument('service'));
     }
-
-    private function fetchCompetitions(String $service)
-    {
+    
+    /**
+     * Chooses a scraper for the specified service
+     * 
+     * @param String $service - service to scrape
+     */
+    public function fetchTeams(String $service) {
         switch ($service) {
             case 'espn':
                 $this->fetchFromEspn();
@@ -55,18 +58,11 @@ class FetchCompetitions extends Command
     }
     
     /**
-     * Gets and saves data using the ESPN competition scraper
+     * Fetches teams from the ESPN team scraper
      */
-    private function fetchFromEspn()
-    {
-        $espn = new EspnScraper();
-        
-        print "\nFetching competitions...";
-        $espn->fetchCompetitions();
-        print "\nDone!";
-        
-        print "\n\nSaving competitions...";
-        $espn->saveCompetitions();
-        print "\nDone!";
+    public function fetchFromEspn() {
+        $espnScraper = new \App\Scrapers\Teams\EspnScraper();
+        print("\nFetching teams...");
+        $espnScraper->fetchCompetitionTeams();
     }
 }

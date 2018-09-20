@@ -23,6 +23,8 @@ class CreateCompetitionsTable extends Migration
             $table->string('results_link')->nullable(true);
             $table->string('category')->nullable(true);
             $table->string('logo')->nullable(true);
+            $table->string('competition_link')->nullable(true);
+            $table->string('service')->nullable(false);
             $table->timestamps();
         });
     }

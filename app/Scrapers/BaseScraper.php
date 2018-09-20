@@ -11,6 +11,12 @@ class BaseScraper {
         
     }
     
+    protected function fetchPage(String $pageUrl) {
+        return http_get(
+                $target = $pageUrl,
+                $ref = "");
+    }
+    
     /**
      * Splits string by tags and removes the tags.
      * 
