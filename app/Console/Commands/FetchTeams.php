@@ -64,5 +64,6 @@ class FetchTeams extends Command
         $espnScraper = new \App\Scrapers\Teams\EspnScraper();
         print("\nFetching teams...");
         $espnScraper->fetchCompetitionTeams();
+        $espnScraper->saveCompetitionTeams();
     }
 }

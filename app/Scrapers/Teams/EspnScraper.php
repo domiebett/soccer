@@ -27,10 +27,12 @@ class EspnScraper extends BaseScraper {
     
     private $competitions;
     private $competitionTeams = [];
+    private $teams;
     
     public function __construct() {
         parent::__construct();
         $this->competitions = [];
+        $this->teams = [];
         $this->fetchEspnCompetitionLinks();
     }
     
@@ -50,7 +52,9 @@ class EspnScraper extends BaseScraper {
      */
     public function fetchCompetitionTeams() {
         foreach($this->competitions as $competition) {
-            $this->fetchSingleCompetitionTeams($competition);
+            $competitionTeams =
+                    $this->fetchSingleCompetitionTeams($competition);
+            $this->teams[] = $competitionTeams;
         }
     }
     
@@ -64,14 +68,40 @@ class EspnScraper extends BaseScraper {
     private function fetchSingleCompetitionTeams($competition) {
         print("\n  Fetching teams for " . $competition['name']);
         $competitionLink = $competition['competition_link'];
+        
+        $competitionLink = "file:///Users/dominicbett/Documents/Downloaded%20Webpages/English%20Premier%20League%20News,%20Stats,%20Scores%20-%20ESPN.html";
+        $competitionLink = "file:///Users/dominicbett/Documents/Downloaded%20Webpages/UEFA%20Champions%20League%20News,%20Stats,%20Scores%20-%20ESPN.html";
                 
         $webPage = $this->fetchPage($competitionLink);
                 
         $parsedTable = $this->extractParsedTable($webPage["FILE"]);
         
         $teams = $this->extractTeamsFromTable($parsedTable);
-        
+                
         return $teams;
+    }
+    
+    /**
+     * Persists the teams to the db.
+     * 
+     * @return null
+     */
+    public function saveCompetitionTeams() {
+        if (count($this->teams) <= 0) {
+            print("There are no teams to save.");
+            return;
+        }
+        
+        print("\nSaving teams...");
+        foreach (array_flatten($this->teams, 1) as $team) {
+            try {
+                \App\Models\Team::create($team);
+                print"\n  Saved ".$team['name'];
+            } catch (\Illuminate\Database\QueryException $ex) {
+                print("\n  Couldn't be saved");
+            }
+        }
+        print("\nTeams saved successfully");
     }
     
     /**
@@ -174,10 +204,14 @@ class EspnScraper extends BaseScraper {
             $bodyRowColumns = parse_array($bodyRow, "<td", "</td>");
             $firstColumn = $bodyRowColumns[0];
             $teamName = strip_tags($firstColumn);
+            $teamLinkTags = return_between($firstColumn,
+                    '<a', '</a>', EXCL);
+            $teamLink = get_attribute($teamLinkTags, 'href');
             
             $team = [];
             $team['name'] = $teamName;
             $team['group'] = $groupName;
+            $team['team_link'] = $teamLink;
             
             $teams[] = $team;
             

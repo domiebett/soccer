@@ -3,15 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/public/bots/LIB_parse.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/resources/views/competitions/competitions.blade.php</file>
             <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Http/Controllers/Controller.php</file>
             <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Scrapers/Teams/EspnScraper.php</file>
             <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Scrapers/Competitions/EspnScraper.php</file>
-            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/database/migrations/2018_09_17_184902_create_competitions_table.php</file>
-            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Models/Competition.php</file>
-            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Console/Commands/FetchTeams.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Models/Team.php</file>
             <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Scrapers/BaseScraper.php</file>
             <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Console/Commands/FetchCompetitions.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/public/bots/LIB_parse.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/database/migrations/2018_09_21_234606_create_teams_table.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/routes/web.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Models/Competition.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/database/migrations/2018_09_17_184902_create_competitions_table.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/resources/views/layouts/navbar.blade.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Console/Commands/FetchTeams.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/app/Http/Controllers/CompetitionController.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/resources/views/layouts/app.blade.php</file>
+            <file>file:/Users/dominicbett/Desktop/Projects/Laravel/soccer_predictor/resources/views/welcome.blade.php</file>
         </group>
     </open-files>
 </project-private>
